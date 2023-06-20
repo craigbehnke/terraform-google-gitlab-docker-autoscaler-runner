@@ -59,7 +59,6 @@ variable "runners" {
 
 variable "zone" {
   description = "The zone where the runner will be deployed"
-  default     = "us-central1-c"
   type        = string
 }
 
