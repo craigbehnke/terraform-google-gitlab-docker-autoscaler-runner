@@ -17,8 +17,10 @@ The runner machines in the instance pool are backed by SSD disks, making them re
 
 ## Setup
 
-> **Danger:**
-> **Ensure that your Terraform state is secure**: Static SSH credentials are stored in state, and if disclosed could give an unauthorized actor access to your runner fleet.
+> **DANGER: Ensure that your Terraform state is secure**
+> 
+> Static SSH credentials are stored in state, and if disclosed could give an unauthorized actor access to your runner fleet.
+> 
 > Additionally, the GitLab registration tokens could be exploited to create a fake runner resulting in exposure of credentials used by jobs.
 
 ### Required Quota Requests
@@ -47,7 +49,7 @@ module "gitlab_runner" {
   host_project    = var.project_id
   manager_vm_type = "e2-micro"
   region          = "us-central1"
-  zone            = "us-central1-a"
+  zone            = "us-central1-c"
 
   runners = [
     {
