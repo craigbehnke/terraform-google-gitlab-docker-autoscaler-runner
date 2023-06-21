@@ -50,6 +50,7 @@ module "gitlab_runner" {
   host_project    = var.project_id
   manager_vm_type = "e2-micro"
   region          = "us-central1"
+  timezone        = "America/Chicago"
   zone            = "us-central1-c"
 
   runners = [

@@ -57,8 +57,14 @@ variable "runners" {
   }))
 }
 
+variable "timezone" {
+  description = "The timezone to use for the manager -- seen mainly in logs"
+  default     = "Etc/UTC"
+  type        = string
+}
+
 variable "zone" {
-  description = "The zone where the runner will be deployed"
+  description = "The GCP zone where the runner will be deployed"
   type        = string
 }
 

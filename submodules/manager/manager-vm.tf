@@ -51,7 +51,9 @@ resource "google_compute_instance" "manager" {
   }
 
   metadata_startup_script = templatefile("${path.module}/init.sh", {
-    MANAGER_START_COMMAND = file("${path.module}/manager-start-command.sh")
+    MANAGER_START_COMMAND = templatefile("${path.module}/manager-start-command.sh", {
+      TIMEZONE = var.timezone
+    })
   })
 
   scheduling {
