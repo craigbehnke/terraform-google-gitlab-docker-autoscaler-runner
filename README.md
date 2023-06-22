@@ -36,7 +36,7 @@ This runner uses a lot (a lot!) of compute resources at peak usage, and therefor
 - Compute Engine API > VM Instances
   - Request: 1.2 * combined concurrency
 - Compute Engine API > Persistent Disk SSD (GB) (in active region)
-  - Request: 1.2.* 25 * combined concurrency
+  - Request: 1.2.* weighted average of disk size per vm * combined concurrency
 
 ### Configuration Example
 
@@ -82,7 +82,7 @@ With this configuration, for the compute itself you theoretically see variable c
 
 ## Contributing
 
-We do not claim that this module is perfect, so we would love to hear your suggestions for how it can be improved, or review an MR with your changes!
+I do not claim that this module is perfect, so I would love to hear your suggestions for how it can be improved, or review an MR with your changes!
 
 ### Ideas for future config options
 
