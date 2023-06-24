@@ -29,6 +29,12 @@ variable "disk_size_gb" {
   type        = number
 }
 
+variable "enable_display" {
+  description = "Enable display functionality for the runner"
+  default     = false
+  type        = bool
+}
+
 variable "gitlab_url" {
   description = "The URL of the GitLab instance to register with"
   type        = string
