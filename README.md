@@ -65,14 +65,15 @@ module "gitlab_runner" {
       vm_type       = "e2-standard-2"
     },
     {
-      id            = "runner-large"
-      name          = "Runner - Large"
-      token         = var.large_runner_token
-      concurrency   = 20
-      default_image = "alpine:latest"
-      disk_size_gb  = 25
-      idle_count    = 0
-      vm_type       = "e2-highcpu-8"
+      id             = "runner-large"
+      name           = "Runner - Large"
+      token          = var.large_runner_token
+      concurrency    = 20
+      default_image  = "alpine:latest"
+      disk_size_gb   = 25
+      enable_display = true
+      idle_count     = 0
+      vm_type        = "e2-highcpu-8"
     }
   ]
 }
