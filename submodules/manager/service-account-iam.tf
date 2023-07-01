@@ -46,8 +46,9 @@ resource "google_project_iam_member" "manager-sa-service-account-user" {
   # checkov:skip=CKV_GCP_49: This is needed to properly execute the manager
   # checkov:skip=CKV_GCP_41: This is needed to properly execute the manager
   project = var.host_project
-  role    = "roles/iam.serviceAccountUser"
-  member  = google_service_account.manager-sa.member
+  # tfsec:ignore:google-iam-no-project-level-service-account-impersonation
+  role   = "roles/iam.serviceAccountUser"
+  member = google_service_account.manager-sa.member
 }
 
 resource "google_project_iam_member" "manager-sa-os-login" {
@@ -60,6 +61,7 @@ resource "google_project_iam_member" "manager-sa-token-creator" {
   # checkov:skip=CKV_GCP_49: This is needed to interact with the gcs bucket (see https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnerscachegcs-section)
   # checkov:skip=CKV_GCP_41: This is needed to interact with the gcs bucket (see https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnerscachegcs-section)
   project = var.host_project
-  role    = "roles/iam.serviceAccountTokenCreator"
-  member  = google_service_account.manager-sa.member
+  # tfsec:ignore:google-iam-no-project-level-service-account-impersonation
+  role   = "roles/iam.serviceAccountTokenCreator"
+  member = google_service_account.manager-sa.member
 }

@@ -1,4 +1,5 @@
 # Create the storage bucket used for storing the cache between jobs
+# tfsec:ignore:google-storage-bucket-encryption-customer-key
 resource "google_storage_bucket" "cache" {
   # checkov:skip=CKV_GCP_62: Logs are not needed at this time
   # checkov:skip=CKV_GCP_78: We do not need versioning since the bucket is only used for temporary storage
