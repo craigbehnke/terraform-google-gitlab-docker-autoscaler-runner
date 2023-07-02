@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run tfsec PR commenter
-        uses: aquasecurity/tfsec-pr-commenter-action@v1.3.1
+        uses: aquasecurity/tfsec-pr-commenter-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
   checkov:
@@ -28,4 +28,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Checkov GitHub Action
-        uses: bridgecrewio/checkov-action@v12.1347.0
+        uses: bridgecrewio/checkov-action@v12
+  validate-module:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Terraform Validate
+        uses: dflook/terraform-validate@v1
