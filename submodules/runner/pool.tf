@@ -22,6 +22,7 @@ resource "null_resource" "ignition" {
 }
 
 resource "google_compute_instance_template" "job_runner_template" {
+  provider = google-beta
   # checkov:skip=CKV_GCP_40: Giving the VM an external IP address is required for internet access and is cheaper than other networking products (such as Cloud NAT)
   name        = "${var.id}-template"
   description = "Template for job runner instances"
@@ -32,6 +33,8 @@ resource "google_compute_instance_template" "job_runner_template" {
   instance_description = "VM used for executing a build job"
   machine_type         = var.vm_type
   can_ip_forward       = false
+
+  enable_display = var.enable_display
 
 
   // Create a new boot disk from an image

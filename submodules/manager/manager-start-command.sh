@@ -4,7 +4,7 @@ sudo docker run -d --name gitlab-runner --restart always \
     -v /runner/bin:/usr/local/bin \
     -v /root/.ssh:/root/.ssh \
     -v /etc/ssh:/etc/ssh \
-    -e TZ=America/Chicago \
+    -e TZ="${TIMEZONE}" \
     -e DOCKER_HOST="unix:///run/docker.sock" \
     --privileged \
     --network host \

@@ -18,9 +18,9 @@ The runner machines in the instance pool are backed by SSD disks, making them re
 ## Setup
 
 > **DANGER: Ensure that your Terraform state is secure**
-> 
+>
 > Static SSH credentials are stored in state, and if disclosed could give an unauthorized actor access to your runner fleet.
-> 
+>
 > Additionally, the GitLab registration tokens could be exploited to create a fake runner resulting in exposure of credentials used by jobs.
 
 ### Required Quota Requests
@@ -36,7 +36,7 @@ This runner uses a lot (a lot!) of compute resources at peak usage, and therefor
 - Compute Engine API > VM Instances
   - Request: 1.2 * combined concurrency
 - Compute Engine API > Persistent Disk SSD (GB) (in active region)
-  - Request: 1.2.* 25 * combined concurrency
+  - Request: 1.2.* weighted average of disk size per vm * combined concurrency
 
 ### Configuration Example
 
@@ -44,11 +44,13 @@ The following is an example configuration:
 
 ```tf
 module "gitlab_runner" {
-  source          = "./gitlab_runner"
+  source          = "craigbehnke/gitlab-docker-autoscaler-runner/google"
+  version         = "latest"
   cache_max_age   = 7
   host_project    = var.project_id
   manager_vm_type = "e2-micro"
   region          = "us-central1"
+  timezone        = "America/Chicago"
   zone            = "us-central1-c"
 
   runners = [
@@ -63,14 +65,15 @@ module "gitlab_runner" {
       vm_type       = "e2-standard-2"
     },
     {
-      id            = "runner-large"
-      name          = "Runner - Large"
-      token         = var.large_runner_token
-      concurrency   = 20
-      default_image = "alpine:latest"
-      disk_size_gb  = 25
-      idle_count    = 0
-      vm_type       = "e2-highcpu-8"
+      id             = "runner-large"
+      name           = "Runner - Large"
+      token          = var.large_runner_token
+      concurrency    = 20
+      default_image  = "alpine:latest"
+      disk_size_gb   = 25
+      enable_display = true
+      idle_count     = 0
+      vm_type        = "e2-highcpu-8"
     }
   ]
 }
@@ -80,7 +83,7 @@ With this configuration, for the compute itself you theoretically see variable c
 
 ## Contributing
 
-We do not claim that this module is perfect, so we would love to hear your suggestions for how it can be improved, or review an MR with your changes!
+I do not claim that this module is perfect, so I would love to hear your suggestions for how it can be improved, or review an MR with your changes!
 
 ### Ideas for future config options
 

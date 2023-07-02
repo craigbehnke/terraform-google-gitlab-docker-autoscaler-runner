@@ -23,7 +23,7 @@ resource "google_compute_instance" "manager" {
   project                   = var.host_project
   allow_stopping_for_update = true
   tags                      = ["manager"]
-
+  # tfsec:ignore:google-compute-vm-disk-encryption-customer-key
   boot_disk {
     initialize_params {
       image = data.google_compute_image.manager.self_link
@@ -36,9 +36,11 @@ resource "google_compute_instance" "manager" {
   enable_display      = false
 
   network_interface {
+    #tfsec:ignore:google-compute-no-public-ip
     access_config {
       // Ephemeral IP
       // This is used instead of Cloud NAT because it is SIGNIFICANTLY cheaper (see https://cloud.google.com/nat/pricing/)
+      // Firewall rules are used to restrict access to the VM
     }
     network = var.network_self_link
   }
@@ -51,7 +53,9 @@ resource "google_compute_instance" "manager" {
   }
 
   metadata_startup_script = templatefile("${path.module}/init.sh", {
-    MANAGER_START_COMMAND = file("${path.module}/manager-start-command.sh")
+    MANAGER_START_COMMAND = templatefile("${path.module}/manager-start-command.sh", {
+      TIMEZONE = var.timezone
+    })
   })
 
   scheduling {

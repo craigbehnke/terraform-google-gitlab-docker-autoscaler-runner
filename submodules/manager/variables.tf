@@ -20,6 +20,12 @@ variable "ssh_private_key" {
   sensitive   = true
 }
 
+variable "timezone" {
+  description = "The timezone to use for the manager"
+  default     = "Etc/UTC"
+  type        = string
+}
+
 variable "vm_type" {
   description = "The type of VM to deploy"
   default     = "e2-micro"
