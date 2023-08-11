@@ -1,6 +1,8 @@
 resource "google_project_service" "compute-engine" {
   project = var.host_project
   service = "compute.googleapis.com"
+
+  depends_on = [google_project_service.os-login]
 }
 
 resource "google_project_service" "iam-credentials" {
@@ -26,6 +28,11 @@ resource "google_project_service" "network-management" {
 resource "google_project_service" "os-config" {
   project = var.host_project
   service = "osconfig.googleapis.com"
+
+  depends_on = [
+    google_project_service.os-login,
+    google_project_service.compute-engine
+  ]
 }
 
 resource "google_project_service" "os-login" {

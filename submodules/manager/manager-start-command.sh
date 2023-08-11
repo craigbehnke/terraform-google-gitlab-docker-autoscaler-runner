@@ -10,4 +10,4 @@ sudo docker run -d --name gitlab-runner --restart always \
     --network host \
     gitlab/gitlab-runner:latest \
     run --working-directory=/home/gitlab-runner --user=root
-    # This last line ^^ is for the runner system to start within the docker container
+    # This last line ^^ is for the runner system to start within the docker containerd
