@@ -33,7 +33,7 @@
       use_external_addr      = false
       use_static_credentials = true
       key_path               = "/root/.ssh/id_rsa"
-      timeout                = ${SSH_TIMEOUT}
+      timeout                = "${SSH_TIMEOUT}"
 
     [[runners.autoscaler.policy]]
       idle_count = ${IDLE_COUNT}
