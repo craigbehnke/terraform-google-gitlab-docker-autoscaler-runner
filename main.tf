@@ -36,7 +36,7 @@ module "runner" {
   id                     = each.value.id
   idle_count             = each.value.idle_count
   name                   = each.value.name
-  ssh_connection_timeout = each.value.ssh_connection_timeout
+  ssh_connection_timeout = "${try(coalesce(tonumber(each.value.ssh_connection_timeout), 10), 10)}m"
   token                  = each.value.token
   vm_type                = each.value.vm_type
 
