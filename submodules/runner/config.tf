@@ -9,6 +9,7 @@ locals {
     LIMIT               = var.concurrency
     PROJECT_ID          = var.host_project
     RUNNER_NAME         = var.name
+    SSH_TIMEOUT         = var.ssh_connection_timeout
     TOKEN               = var.token
     ZONE                = var.zone
   })

@@ -71,6 +71,11 @@ variable "network_self_link" {
   type        = string
 }
 
+variable "ssh_connection_timeout" {
+  description = "The timeout for SSH connections to the runner"
+  default     = "2m"
+  type        = string
+}
 variable "ssh_public_key" {
   description = "The public key to use for SSH access to the runner"
   type        = string

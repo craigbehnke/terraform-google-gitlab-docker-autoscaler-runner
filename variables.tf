@@ -54,6 +54,8 @@ variable "runners" {
     enable_display = optional(bool, false)
     # The number of instances to keep on standby
     idle_count = number
+    # The number of minutes to wait while connecting to an instance via SSH
+    ssh_connection_timeout = number
     # The type of GCE VM to deploy
     vm_type = string
   }))
