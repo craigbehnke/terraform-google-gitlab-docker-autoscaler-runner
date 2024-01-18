@@ -35,6 +35,12 @@ variable "enable_display" {
   type        = bool
 }
 
+variable "enable_integrity_monitoring" {
+  description = "Enable integrity monitoring for the runner"
+  default     = true
+  type        = bool
+}
+
 variable "gitlab_url" {
   description = "The URL of the GitLab instance to register with"
   type        = string
