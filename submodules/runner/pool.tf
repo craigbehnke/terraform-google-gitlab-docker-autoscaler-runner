@@ -69,7 +69,7 @@ resource "google_compute_instance_template" "job_runner_template" {
   shielded_instance_config {
     enable_secure_boot          = true
     enable_vtpm                 = true
-    enable_integrity_monitoring = true
+    enable_integrity_monitoring = var.enable_integrity_monitoring
   }
 
   scheduling {

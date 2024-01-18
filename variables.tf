@@ -52,6 +52,8 @@ variable "runners" {
     disk_size_gb = number
     # Enable display functionality for the runner (default: false)
     enable_display = optional(bool, false)
+    # Enable integrity monitoring for the runner (default: true) See also: https://cloud.google.com/compute/shielded-vm/docs/shielded-vm#integrity-monitoring
+    enable_integrity_monitoring = optional(bool, true)
     # The number of instances to keep on standby
     idle_count = number
     # The number of minutes to wait while connecting to an instance via SSH
