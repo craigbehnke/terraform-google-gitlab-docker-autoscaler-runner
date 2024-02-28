@@ -4,11 +4,17 @@ data "google_compute_image" "pool_os" {
   project = "fedora-coreos-cloud"
 }
 
-
+locals {
+  otel_metrics_receivers = "[${join(",", var.observability_settings.metrics_receivers)}]"
+  otel_metrics_exporters = "[${join(",", var.observability_settings.metrics_exporters)}]"
+}
 
 data "ct_config" "pool_ignition" {
   content = templatefile("${path.module}/pool-ignition.yaml", {
-    SSH_AUTHORIZED_KEY = var.ssh_public_key
+    SSH_AUTHORIZED_KEY     = var.ssh_public_key
+    OTEL_ENABLED           = var.observability_settings != null
+    OTEL_METRICS_RECEIVERS = local.otel_metrics_receivers
+    OTEL_METRICS_EXPORTERS = local.otel_metrics_exporters
   })
   strict = true
 }

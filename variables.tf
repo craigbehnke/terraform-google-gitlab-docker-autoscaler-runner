@@ -56,6 +56,12 @@ variable "runners" {
     enable_integrity_monitoring = optional(bool, true)
     # The number of instances to keep on standby
     idle_count = number
+    observability_settings = optional(object({
+      // The list of enabled receivers. Options are: 'docker_stats', 'hostmetrics'
+      metrics_receivers = list(string)
+      // The list of enabled exporters. Options are: 'googlecloud'
+      metrics_exporters = list(string)
+    }), null)
     # The number of minutes to wait while connecting to an instance via SSH
     ssh_connection_timeout = number
     # The type of GCE VM to deploy

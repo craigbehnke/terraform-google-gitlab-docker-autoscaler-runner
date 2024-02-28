@@ -30,16 +30,17 @@ module "runner" {
   source   = "./submodules/runner"
   for_each = { for runner in var.runners : runner.id => runner }
 
-  concurrency            = each.value.concurrency
-  default_image          = each.value.default_image
-  disk_size_gb           = each.value.disk_size_gb
-  id                     = each.value.id
-  idle_count             = each.value.idle_count
-  name                   = each.value.name
-  ssh_connection_timeout = "${try(coalesce(tonumber(each.value.ssh_connection_timeout), 10), 10)}m"
-  token                  = each.value.token
+  concurrency                 = each.value.concurrency
+  default_image               = each.value.default_image
+  disk_size_gb                = each.value.disk_size_gb
+  id                          = each.value.id
+  idle_count                  = each.value.idle_count
+  name                        = each.value.name
+  ssh_connection_timeout      = "${try(coalesce(tonumber(each.value.ssh_connection_timeout), 10), 10)}m"
+  token                       = each.value.token
   enable_integrity_monitoring = each.value.enable_integrity_monitoring
-  vm_type                = each.value.vm_type
+  observability_settings      = each.value.observability_settings
+  vm_type                     = each.value.vm_type
 
   allow_cloud_console_ssh = var.allow_cloud_console_ssh
   bucket_name             = module.cache.bucket_name

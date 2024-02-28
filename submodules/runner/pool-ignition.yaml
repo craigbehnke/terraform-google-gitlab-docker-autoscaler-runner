@@ -15,3 +15,77 @@ storage:
         inline: |
           # Modify these options if you want to change the way the docker daemon runs
           OPTIONS="--tls=false -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock"
+    - path: /etc/otel-collector/otel-collector.yaml
+      overwrite: true
+      contents:
+        inline: |
+          receivers:
+            docker_stats:
+              collection_interval: 10s
+              endpoint: unix:///var/run/docker.sock
+              metrics:
+
+                container.blockio.io_service_bytes_recursive:
+                  enabled: false
+                container.cpu.usage.kernelmode:
+                  enabled: false
+                container.cpu.usage.total:
+                  enabled: false
+                container.cpu.usage.usermode:
+                  enabled: false
+                container.cpu.utilization:
+                  enabled: true
+                container.memory.file:
+                  enabled: true
+                container.memory.percent:
+                  enabled: true
+                container.memory.total_cache:
+                  enabled: false
+                container.memory.usage.limit:
+                  enabled: false
+                container.memory.usage.total:
+                  enabled: true
+                container.network.io.usage.rx_bytes:
+                  enabled: true
+                container.network.io.usage.tx_bytes:
+                  enabled: true
+
+                container.uptime:
+                  enabled: true
+
+              hostmetrics:
+                collection_interval: 10s
+                scrapers:
+                  cpu:
+                  memory:
+                  load:
+                    cpu_average: true
+          processors:
+            resourcedetection:
+              detectors: [gcp]
+            batch:
+          exporters:
+            googlecloud:
+          service:
+            pipelines:
+              metrics:
+                receivers: ${OTEL_METRICS_RECEIVERS}
+                processors: [resourcedetection, batch]
+                exporters: ${OTEL_METRICS_EXPORTERS}
+systemd:
+  units:
+    - name: otel-collector.service
+      enabled: ${OTEL_ENABLED}
+      content: |
+        [Unit]
+        Description=OpenTelemetry Collector
+        After=network.target
+
+        [Service]
+        Type=simple
+        ExecStart=docker run -v /etc/otel-collector/otel-collector.yaml:/otel-collector.yaml -v /var/run/docker.sock:/var/run/docker.sock --net=host --name=otel-collector --env GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS --rm otel/opentelemetry-collector-contrib:latest --config=/otel-collector.yaml
+        Restart=always
+        RestartSec=5s
+
+        [Install]
+        WantedBy=multi-user.target

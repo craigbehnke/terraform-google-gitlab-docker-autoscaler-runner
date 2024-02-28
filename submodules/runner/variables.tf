@@ -107,6 +107,18 @@ variable "zone" {
 }
 
 
+variable "observability_settings" {
+  description = "The observability settings for the runner"
+  nullable    = true
+  default     = null
+  type = object({
+    // The list of enabled receivers. Options are: 'docker_stats', 'hostmetrics'
+    metrics_receivers = list(string)
+    // The list of enabled exporters. Options are: 'googlecloud'
+    metrics_exporters = list(string)
+  })
+}
+
 
 #################################
 ### Outputs for the runner ######
