@@ -53,13 +53,13 @@ storage:
                 container.uptime:
                   enabled: true
 
-              hostmetrics:
-                collection_interval: 10s
-                scrapers:
-                  cpu:
-                  memory:
-                  load:
-                    cpu_average: true
+            hostmetrics:
+              collection_interval: 10s
+              scrapers:
+                cpu:
+                memory:
+                load:
+                  cpu_average: true
           processors:
             resourcedetection:
               detectors: [gcp]
