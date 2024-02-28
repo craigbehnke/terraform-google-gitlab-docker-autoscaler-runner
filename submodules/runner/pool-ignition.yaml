@@ -76,7 +76,7 @@ systemd:
   units:
     - name: otel-collector.service
       enabled: ${OTEL_ENABLED}
-      content: |
+      content: <<EOF
         [Unit]
         Description=OpenTelemetry Collector
         After=network.target
@@ -89,3 +89,4 @@ systemd:
 
         [Install]
         WantedBy=multi-user.target
+        EOF
