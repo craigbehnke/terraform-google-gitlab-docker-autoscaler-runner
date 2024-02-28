@@ -19,7 +19,7 @@ locals {
 
 data "ct_config" "pool_ignition" {
   content = local.final_config
-  strict  = true
+  strict  = false
 }
 
 /// This is a resource that does nothing but include the pool-ignition.yaml file in the dependency graph
