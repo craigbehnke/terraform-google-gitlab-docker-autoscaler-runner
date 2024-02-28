@@ -114,8 +114,10 @@ variable "observability_settings" {
   type = object({
     // The list of enabled receivers. Options are: 'docker_stats', 'hostmetrics'
     metrics_receivers = list(string)
-    // The list of enabled exporters. Options are: 'googlecloud'
+    // The list of enabled exporters. Options are: 'googlecloud', 'otlp'
     metrics_exporters = list(string)
+    // The endpoint that the OTLP exporter should send data to
+    otlp_endpoint = string
   })
 }
 

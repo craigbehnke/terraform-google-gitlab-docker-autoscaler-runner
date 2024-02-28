@@ -66,6 +66,10 @@ storage:
             batch:
           exporters:
             googlecloud:
+            otlp:
+              endpoint: ${OTLP_ENDPOINT}
+              tls:
+                insecure: true
           service:
             pipelines:
               metrics:
