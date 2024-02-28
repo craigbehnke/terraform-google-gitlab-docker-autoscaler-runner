@@ -5,8 +5,8 @@ data "google_compute_image" "pool_os" {
 }
 
 locals {
-  otel_metrics_receivers = "[${join(",", var.observability_settings.metrics_receivers)}]"
-  otel_metrics_exporters = "[${join(",", var.observability_settings.metrics_exporters)}]"
+  otel_metrics_receivers = "[${join(",", var.observability_settings != null ? var.observability_settings.metrics_receivers : [])}]"
+  otel_metrics_exporters = "[${join(",", var.observability_settings != null ? var.observability_settings.metrics_exporters : [])}]"
 }
 
 data "ct_config" "pool_ignition" {
