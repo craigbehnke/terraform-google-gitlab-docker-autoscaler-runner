@@ -2,7 +2,7 @@ systemd:
   units:
     - name: otel-collector.service
       enabled: true
-      content: |
+      contents: |
         [Unit]
         Description=OpenTelemetry Collector
         After=network.target
