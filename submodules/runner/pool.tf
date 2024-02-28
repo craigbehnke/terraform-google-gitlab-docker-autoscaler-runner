@@ -7,16 +7,19 @@ data "google_compute_image" "pool_os" {
 locals {
   otel_metrics_receivers = "[${join(",", var.observability_settings != null ? var.observability_settings.metrics_receivers : [])}]"
   otel_metrics_exporters = "[${join(",", var.observability_settings != null ? var.observability_settings.metrics_exporters : [])}]"
+  standard_config = templatefile("${path.module}/pool-ignition.yaml", {
+    SSH_AUTHORIZED_KEY     = var.ssh_public_key
+    OTEL_METRICS_RECEIVERS = local.otel_metrics_receivers
+    OTEL_METRICS_EXPORTERS = local.otel_metrics_exporters
+    SYSTEMD_CONFIG         = var.observability_settings != null ? file("${path.module}/systemd.yaml") : ""
+  })
+  systemd_config = var.observability_settings != null ? file("${path.module}/systemd.yaml") : ""
+  final_config   = "${local.standard_config}\n${local.systemd_config}"
 }
 
 data "ct_config" "pool_ignition" {
-  content = templatefile("${path.module}/pool-ignition.yaml", {
-    SSH_AUTHORIZED_KEY     = var.ssh_public_key
-    OTEL_ENABLED           = var.observability_settings != null
-    OTEL_METRICS_RECEIVERS = local.otel_metrics_receivers
-    OTEL_METRICS_EXPORTERS = local.otel_metrics_exporters
-  })
-  strict = true
+  content = local.final_config
+  strict  = true
 }
 
 /// This is a resource that does nothing but include the pool-ignition.yaml file in the dependency graph

@@ -72,21 +72,3 @@ storage:
                 receivers: ${OTEL_METRICS_RECEIVERS}
                 processors: [resourcedetection, batch]
                 exporters: ${OTEL_METRICS_EXPORTERS}
-systemd:
-  units:
-    - name: otel-collector.service
-      enabled: ${OTEL_ENABLED}
-      content: <<EOF
-        [Unit]
-        Description=OpenTelemetry Collector
-        After=network.target
-
-        [Service]
-        Type=simple
-        ExecStart=docker run -v /etc/otel-collector/otel-collector.yaml:/otel-collector.yaml -v /var/run/docker.sock:/var/run/docker.sock --net=host --name=otel-collector --env GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS --rm otel/opentelemetry-collector-contrib:latest --config=/otel-collector.yaml
-        Restart=always
-        RestartSec=5s
-
-        [Install]
-        WantedBy=multi-user.target
-        EOF
