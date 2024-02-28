@@ -11,7 +11,7 @@ locals {
     SSH_AUTHORIZED_KEY     = var.ssh_public_key
     OTEL_METRICS_RECEIVERS = local.otel_metrics_receivers
     OTEL_METRICS_EXPORTERS = local.otel_metrics_exporters
-    OTLP_ENDPOINT          = var.observability_settings != null ? var.observability_settings.otlp_endpoint : "localhost:1234"
+    PROM_ENDPOINT          = var.observability_settings != null ? var.observability_settings.prom_endpoint : "localhost:1234"
     SYSTEMD_CONFIG         = var.observability_settings != null ? file("${path.module}/systemd.yaml") : ""
   })
   systemd_config = var.observability_settings != null ? file("${path.module}/systemd.yaml") : ""

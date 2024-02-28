@@ -66,10 +66,8 @@ storage:
             batch:
           exporters:
             googlecloud:
-            otlp:
-              endpoint: ${OTLP_ENDPOINT}
-              tls:
-                insecure: true
+            prometheusremotewrite:
+              endpoint: ${PROM_ENDPOINT}
           service:
             pipelines:
               metrics:

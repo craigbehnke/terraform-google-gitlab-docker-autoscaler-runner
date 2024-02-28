@@ -59,10 +59,11 @@ variable "runners" {
     observability_settings = optional(object({
       // The list of enabled receivers. Options are: 'docker_stats', 'hostmetrics'
       metrics_receivers = list(string)
-      // The list of enabled exporters. Options are: 'googlecloud', 'otlp'
+      // The list of enabled exporters. Options are: 'googlecloud', 'prometheusremotewrite'
       metrics_exporters = list(string)
-      // The endpoint that the OTLP exporter should send data to
-      otlp_endpoint = string
+      // The endpoint that the Prometheus exporter should send data to
+      // This includes the username and password. See https://grafana.com/blog/2022/05/10/how-to-collect-prometheus-metrics-with-the-opentelemetry-collector-and-grafana/
+      prom_endpoint = string
     }), null)
     # The number of minutes to wait while connecting to an instance via SSH
     ssh_connection_timeout = number
