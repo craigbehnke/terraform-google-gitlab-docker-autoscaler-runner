@@ -5,7 +5,7 @@ systemd:
       contents: |
         [Unit]
         Description=OpenTelemetry Collector
-        After=network.target
+        After=docker.service
 
         [Service]
         Type=simple
