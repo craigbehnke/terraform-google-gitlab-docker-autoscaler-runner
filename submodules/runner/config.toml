@@ -4,7 +4,7 @@
   token = "${TOKEN}"
 
   # uncomment for Windows Images when the Runner manager is hosted on Linux
-  environment = ["FF_USE_FASTZIP=1"]
+  environment = ["FF_USE_FASTZIP=1", "DOCKER_TLS_CERTDIR=", "DOCKER_HOST=tcp://docker:2375"]
 
   executor = "docker-autoscaler"
   limit    = ${LIMIT}
@@ -12,8 +12,8 @@
   # Docker Executor config
   [runners.docker]
     image         = "${DEFAULT_IMAGE}"
-    host          = "unix:///var/run/docker.sock"
     privileged    = true
+    tls_verify    = false
 
   # Autoscaler config
   [runners.autoscaler]
