@@ -1,0 +1,11 @@
+#cloud-config
+users:
+  - name: core
+    groups: docker
+    ssh_authorized_keys:
+      - ${SSH_AUTHORIZED_KEY}
+metrics:
+  receivers:
+    hostmetrics:
+      type: hostmetrics
+      collection_interval: ${HOST_METRIC_INTERVAL}s

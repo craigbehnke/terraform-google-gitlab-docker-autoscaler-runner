@@ -41,9 +41,21 @@ variable "enable_integrity_monitoring" {
   type        = bool
 }
 
+variable "enable_ops_agent" {
+  description = "Enable the ops agent for host metrics"
+  default     = false
+  type        = bool
+}
+
 variable "gitlab_url" {
   description = "The URL of the GitLab instance to register with"
   type        = string
+}
+
+variable "host_metric_interval" {
+  description = "Host metric interval for reporting"
+  default     = 60
+  type        = number
 }
 
 variable "host_project" {

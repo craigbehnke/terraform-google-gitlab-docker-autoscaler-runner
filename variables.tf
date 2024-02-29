@@ -54,8 +54,12 @@ variable "runners" {
     enable_display = optional(bool, false)
     # Enable integrity monitoring for the runner (default: true) See also: https://cloud.google.com/compute/shielded-vm/docs/shielded-vm#integrity-monitoring
     enable_integrity_monitoring = optional(bool, true)
+    # Enable the ops agent to view host metrics in gcp
+    enable_ops_agent = optional(bool, false)
     # The number of instances to keep on standby
     idle_count = number
+    # The interval at which the host metrics are reported (works together with enable_ops_agent set to true)
+    host_metric_interval = optional(number, 60)
     # The number of minutes to wait while connecting to an instance via SSH
     ssh_connection_timeout = number
     # The type of GCE VM to deploy
