@@ -1,0 +1,6 @@
+#cloud-config
+users:
+  - name: core
+    groups: docker
+    ssh_authorized_keys:
+      - ${SSH_AUTHORIZED_KEY}

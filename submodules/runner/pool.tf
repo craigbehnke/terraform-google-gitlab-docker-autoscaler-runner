@@ -1,23 +1,28 @@
 
 data "google_compute_image" "pool_os" {
-  family  = "fedora-coreos-stable"
-  project = "fedora-coreos-cloud"
+  family  = "cos-stable"
+  project = "cos-cloud"
 }
 
+data "cloudinit_config" "cloud_config" {
+  gzip          = false
+  base64_encode = false
 
+  part {
+    filename     = "cloud-config.yaml"
+    content_type = "text/cloud-config"
 
-data "ct_config" "pool_ignition" {
-  content = templatefile("${path.module}/pool-ignition.yaml", {
-    SSH_AUTHORIZED_KEY = var.ssh_public_key
-  })
-  strict = true
+    content = templatefile("${path.module}/cloud-config.yaml", {
+      SSH_AUTHORIZED_KEY = var.ssh_public_key
+    })
+  }
 }
 
 /// This is a resource that does nothing but include the pool-ignition.yaml file in the dependency graph
 /// Inclusion in the graph then allows us to recreate the runner when the config changes
-resource "null_resource" "ignition" {
+resource "null_resource" "cloudinit" {
   triggers = {
-    config = sha1(data.ct_config.pool_ignition.rendered)
+    config = sha1(data.cloudinit_config.cloud_config.rendered)
   }
 }
 
@@ -55,9 +60,10 @@ resource "google_compute_instance_template" "job_runner_template" {
   }
 
   metadata = {
-    google-logging-enabled = "true"
-    block-project-ssh-keys = true
-    user-data              = data.ct_config.pool_ignition.rendered
+    google-logging-enabled    = "true"
+    google-monitoring-enabled = true
+    block-project-ssh-keys    = true
+    user-data                 = data.cloudinit_config.cloud_config.rendered
   }
 
   service_account {
@@ -82,7 +88,7 @@ resource "google_compute_instance_template" "job_runner_template" {
 
   lifecycle {
     replace_triggered_by = [
-      null_resource.ignition.id
+      null_resource.cloudinit.id
     ]
   }
 }
