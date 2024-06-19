@@ -28,12 +28,6 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plug
 # Create the config file
 curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/config -H 'Metadata-Flavor: Google' -o /runner/etc/config.toml
 
-# Download the latest version of fleeting plugin
-curl https://gitlab.com/api/v4/projects/39455486/packages/generic/releases/v0.1.0/fleeting-plugin-googlecompute-linux-amd64 \
-    -o /runner/bin/fleeting-plugin-googlecompute
-
-chmod 777 /runner/bin/fleeting-plugin-googlecompute
-
 # Execute the start command
 # This is stored in the runner-start-command.sh file so that it can be easily repeated in terraform
 ${MANAGER_START_COMMAND}

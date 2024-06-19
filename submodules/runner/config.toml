@@ -17,7 +17,7 @@
 
   # Autoscaler config
   [runners.autoscaler]
-    plugin = "fleeting-plugin-googlecompute"
+    plugin = "googlecloud:latest"
 
     capacity_per_instance = 1
     max_use_count         = 1
