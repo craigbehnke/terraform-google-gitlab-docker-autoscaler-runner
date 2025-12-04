@@ -10,7 +10,7 @@ sudo docker run \
     -e FLEETING_PLUGIN_PATH="/usr/local/bin" \
     --privileged \
     --network host \
-    gitlab/gitlab-runner:ubuntu-92594782 \
+    gitlab/gitlab-runner:ubuntu-v18.3.1 \
     fleeting install && \
     # We want to install the fleeting plugin for the system before we run the system itself
 
@@ -26,6 +26,6 @@ sudo docker run -d --name gitlab-runner --restart always \
     -e FLEETING_PLUGIN_PATH="/usr/local/bin" \
     --privileged \
     --network host \
-    gitlab/gitlab-runner:ubuntu-92594782 \
+    gitlab/gitlab-runner:ubuntu-v18.3.1 \
     run --working-directory=/home/gitlab-runner --user=root
     # This last line ^^ is for the runner system to start within the docker containerd
