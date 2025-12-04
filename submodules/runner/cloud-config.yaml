@@ -4,6 +4,20 @@ users:
     groups: docker
     ssh_authorized_keys:
       - ${SSH_AUTHORIZED_KEY}
+
+write_files:
+  - path: /etc/docker/daemon.json
+    permissions: "0644"
+    owner: root
+    content: |
+      {
+        "mtu": 1460,
+        "dns": ["169.254.169.254", "8.8.8.8"]
+      }
+
+bootcmd:
+  - mkdir -p /etc/docker
+
 metrics:
   receivers:
     hostmetrics:
