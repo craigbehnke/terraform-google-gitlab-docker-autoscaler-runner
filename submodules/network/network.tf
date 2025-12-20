@@ -26,7 +26,7 @@ resource "google_compute_firewall" "web_to_manager" {
 
 module "cloud_router" {
   source  = "terraform-google-modules/cloud-router/google"
-  version = "~> 5.0"
+  version = "~> 6.0"
   project = var.host_project
   name    = "runner-router"
   network = google_compute_network.runner_network.name
